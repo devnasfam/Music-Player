@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="keyword" content="Music Player"/>
+
+    <meta name="description" content="Still listening to MP3s online? Then you need my online music player app, it's completely free and have no ads."/>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+     <script src="https://kit.fontawesome.com/d3c9fc67a3.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script src="music_player.js"></script>
+
+    <title>Music Player</title>
+
+    </head>
+
+     <body>
+
+      <div class="nav">
+
+       <li>
+
+        <div class="items">
+
+         <div class="i_name"><i class="fa fa-volume-up"></i></div>
+
+         <input type="range" min="0" max="100" id="range" value="50"><div class="count">50%</div></div>
+
+       </li>
+
+         <li>
+
+           <div class="items"><i class="fa fa-angle-up"></i>
+
+           </div>
+
+        </li>
+
+     </div>
+
+   <div class="back">
+
+    <div class="container">
+
+       <div class="header">
+
+          <div class="content">
+
+          <h2>Music Player</h2>
+
+          </div>
+
+          <div class="bars">
+
+          <i class="fa fa-bars"></i>
+
+          </div>
+
+          </div>
+
+            <div class="center">
+
+             <div class="nums_cont">
+
+              <span class="nums"></span></div>
+
+            <div class="loader"></div>
+
+            <div class="info">
+
+            <li>
+
+            <div class="song_name">
+
+            Song:
+
+            </div>
+
+           <span class="song">
+
+         </span>
+
+       </li>
+
+      <li>
+
+         <div class="artist_name">
+
+            Artist:
+
+             </div>
+
+             <span class="artist">
+
+             </span>
+
+             </li>
+
+             </div>
+
+             </div>
+
+           <div class="footer">
+
+         <div class="duration">
+
+       <div class="start">00:00</div>
+
+     <input type="range" min="0" max="100" id="range" value="0">
+
+         <div class="end">00:00</div>
+
+         </div>
+
+         <div class="playsback">
+
+         <i class="fa fa-backward"></i>
+
+         <div class="play_pause">
+
+         <i class="fa fa-play"></i>
+
+         </div>
+
+         <i class="fa fa-forward"></i>
+
+         </div>
+
+         </div>
+
+    </div>
+
+    </div>
+
+    <div class="loading_page">
+
+    <i class="fa fa-music"></i>
+
+    <div class="m_name">Music Player</div>
+
+    <br />
+
+    <div class="music_player" data-text="Loading...">
+
+  Loading...
+
+    </div>
+
+    <div class="byme">copyright© devnasfam</div>
+
+    </div>
+
+    <script>
+
+$(document).ready(()=>{
+
+const rangeInputs = document.querySelectorAll('input[type="range"]')
+
+function handleInputChange(e) {
+
+let target = e.target
+
+if (e.target.type !== 'range') {
+
+  target = document.getElementById('range')
+
+} 
+
+  const min = target.min
+
+  const max = target.max
+
+  const val = target.value
+
+  target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
+
+}
+
+rangeInputs.forEach(input => {
+
+  input.addEventListener('input', handleInputChange)
+
+});
+
+let range = document.querySelector(".duration #range");
+
+range.value=0;
+
+let Songs = 
+
+   [
+
+   {
+
+        "song":"Let Me Down Slowly",
+
+        "artist":"Alec Benjamin", "url":"https://dl.dropbox.com/s/4qugpq89wiv87nm/Alec_Benjamin_-_Let_Me_Down_Slowly_%5BOfficial_Music_Video%5D%28256k%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW2a78UmGnu08hvFD-B5K0vSl4icBS0D_tZg&usqp=CAU",
+
+        "num":1
+
+    },
+
+    {
+
+        "song":"Unstoppable",
+
+       "artist":"Sia",
+
+       "url":"https://dl.dropbox.com/s/i7jrehj2e4pzh2e/Sia_-_Unstoppable_%28Lyrics%29%28256k%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYzV0866U3zH5fGJxWqXCuayPZpIuHyi0lkw&usqp=CAU",
+
+        "num":2
+
+    },
+
+    {
+
+        "song":"Believer",
+
+        "artist":"Imagine Dragons", "url":"https://dl.dropbox.com/s/wwkk73v7uxkf3v1/Imagine_Dragons_-_Believer_Naijamusics.com.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp5Zfkf9laRCyzmIlQDh9-DA1dN45Olj9ZeA&usqp=CAU",
+
+        "num":3
+
+    },
+
+    {
+
+        "song":"On My Way",
+
+        "artist":"Alan Walker",
+
+        "url":"https://dl.dropbox.com/s/c8hj3f4rme5kqc0/On%20My%20Way%20-%20Alan%20Walker%20128%20Kbps%28MrJattCom.Com%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLLQKC7y2UqmsssL9j_uVbDTjKJby3L1uXdQ&usqp=CAU",
+
+        "num":4
+
+    },
+
+     {
+
+        "song":"Miss You",
+
+        "artist":"Oliver Tree and Robin Schulz",
+
+        "url":"https://dl.dropbox.com/s/s4diqxdcqhrqi0u/Oliver_Tree_%26_Robin_Schulz_-_Miss_You_%28Lyrics%29%28256k%29.mp3?dl=0",
+
+        "icon":"https://i.ytimg.com/vi/BX0lKSa_PTk/maxresdefault.jpg",
+
+        "num":5
+
+    },
+
+     {
+
+        "song":"I'm Good (Blue)",
+
+        "artist":"Bebe Rexha & David",
+
+        "url":"https://dl.dropbox.com/s/bca5vu8hnfjgs3g/David_Guetta%252C_Bebe_Rexha_-_I_m_good__Blue__LYRICS__I_m_good%252C_yeah%252C_I_m_feelin__alright_%28256k%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_IPRuqeXkdTfDWvdcilHaj1SP-IUuHtnsQ&usqp=CAU",
+
+        "num":6
+
+    },
+
+     {
+
+        "song":"Calm Down",
+
+        "artist":"Rema",
+
+        "url":"https://dl.dropbox.com/s/ufqmfit6j81kee5/Rema_-_Calm_Down_%28Official_Music_Video%29%28256k%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNy33PMWdAFPvL7K6zsje5oepz8S_YlyytyQ&usqp=CAU",
+
+        "num":7
+
+    },
+
+     {
+
+        "song":"Unholy",
+
+        "artist":"Kim & Sam Smith",
+
+        "url":"https://dl.dropbox.com/s/zhiqput0vreerye/Sam_Smith_-_Unholy_ft._Kim_Petras%28256k%29.mp3?dl=0",
+
+        "icon":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfI_kP4fb-tt4buMnhV3gb9JRMmbcf6rONDA&usqp=CAU",
+
+        "num":8
+
+    }
+
+    ];
+
+    
+
+    let audio = new Audio();
+
+    let i = 0
+
+    $(".fa-forward").click(()=>{
+
+    i=(i+1)%Songs.length;
+
+    audio.src=Songs[i].url;
+
+    $(".loader")
+
+    .css({"background":`black url(${Songs[i].icon})`});
+
+    $(".loader")
+
+    .css({"background-size":"cover"});
+
+    range.value=0;
+
+    audio.play();
+
+    $(".song").text(Songs[i].song);
+
+    $(".artist").text(Songs[i].artist);
+
+    $(".nums")
+
+    .text(Songs[i].num+"/"+Songs.length);
+
+    $(".play_pause")
+
+    .html("<i class='fa fa-pause'></i>");
+
+    $(".loader").addClass("animate");
+
+    $(".play_pause").click(()=>{
+
+        if(audio.paused){
+
+           audio.play();
+
+           $(".play_pause")
+
+           .html("<i class='fa fa-pause'></i>");
+
+           $(".loader").addClass("animate");
+
+        }else if(!audio.paused){
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }else{
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }
+
+    });
+
+    });
+
+    
+
+    $(".fa-backward").click(()=>{
+
+    i=(i-1+Songs.length)%Songs.length;
+
+    audio.src=Songs[i].url;
+
+    $(".loader")
+
+    .css({"background":`black url(${Songs[i].icon})`});
+
+    $(".loader")
+
+    .css({"background-size":"cover"});
+
+    range.value=0;
+
+    audio.play();
+
+    $(".song").text(Songs[i].song);
+
+    $(".artist").text(Songs[i].artist);
+
+    $(".nums")
+
+    .text(Songs[i].num+"/"+Songs.length);
+
+    $(".play_pause")
+
+    .html("<i class='fa fa-pause'></i>");
+
+    $(".loader").addClass("animate");
+
+    $(".play_pause").click(()=>{
+
+        if(audio.paused){
+
+           audio.play();
+
+           $(".play_pause")
+
+           .html("<i class='fa fa-pause'></i>");
+
+           $(".loader").addClass("animate");
+
+        }else if(!audio.paused){
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }else{
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }
+
+    });
+
+    });
+
+    audio.src=Songs[i].url;
+
+    $(".loader")
+
+    .css({"background":`black url(${Songs[i].icon})`});
+
+    $(".song").text(Songs[i].song);
+
+    $(".artist").text(Songs[i].artist);
+
+   $(".nums")
+
+   .text(Songs[i].num+"/"+Songs.length);
+
+    $(".loader")
+
+    .css({"background-size":"cover"});
+
+    
+
+    audio.addEventListener("loadedmetadata",()=>{
+
+    setTimeout(()=>{
+
+    $(".loading_page").hide();
+
+    $(".container").fadeIn(500);
+
+   },1500);
+
+    let durminutes = Math.floor(audio.duration/60);
+
+    let durseconds = Math.floor(audio.duration-durminutes*60);
+
+   (durminutes<10)?durminutes="0"+durminutes:durminutes;
+
+   (durseconds<10)?durseconds="0"+durseconds:durseconds;
+
+    $(".end")
+
+    .text(durminutes+":"+durseconds);
+
+    
+
+    
+
+    let play_pause = document.querySelector(".play_pause");
+
+    //Live audio duration
+
+    audio.addEventListener("timeupdate",()=>{
+
+    let minutes = Math.floor(audio.currentTime/60);
+
+    let seconds = Math.floor(audio.currentTime-minutes*60);
+
+   (minutes<10)?minutes="0"+minutes:minutes;
+
+   (seconds<10)?seconds="0"+seconds:seconds;
+
+    
+
+        $(".start")
+
+        .text(minutes+":"+seconds);
+
+  const min = range.min
+
+  const max = range.max
+
+  const val = range.value
+
+  range.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%';
+
+         range.value=Math.floor((audio.currentTime*100)/audio.duration);
+
+    });
+
+    
+
+    //Sliding for playback
+
+    range.oninput=()=>{
+
+ audio.currentTime=audio.duration*(range.value)/100;
+
+    };
+
+    
+
+    $(".play_pause").click(()=>{
+
+        if(audio.paused){
+
+           audio.play();
+
+           $(".play_pause")
+
+           .html("<i class='fa fa-pause'></i>");
+
+           $(".loader").addClass("animate");
+
+        }else if(!audio.paused){
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }else{
+
+            audio.pause();
+
+            $(".play_pause")
+
+           .html("<i class='fa fa-play'></i>");
+
+            $(".loader").removeClass("animate");
+
+        }
+
+    });
+
+ });
+
+ 
+
+    $(".bars").click(()=>{
+
+    $(".nav").slideDown(70);
+
+    });
+
+    $(".nav li .fa-angle-up").click(()=>{
+
+     $(".nav").slideUp(100);
+
+    });
+
+    
+
+    let volume = document.querySelector(".nav #range");
+
+    audio.volume=50/100;
+
+    volume.addEventListener("input",()=>{
+
+      $(".count").html(volume.value+"%");
+
+      audio.volume=volume.value/100;
+
+      if (volume.value<50 && volume.value > 0){
+
+          $(".i_name")
+
+          .html("<i class='fa fa-volume-down'></i>");
+
+          $(".i_name")
+
+          .css({"padding":"4px 10.5px"});
+
+      }else if(volume.value<=0){
+
+          $(".i_name")
+
+          .html("<i class='fa fa-volume-mute'></i>");
+
+          $(".i_name")
+
+          .css({"padding":"4px 8px"});
+
+          $(".count").html("muted");
+
+      }else{
+
+          $(".i_name")
+
+          .html("<i class='fa fa-volume-up'></i>");
+
+          $(".i_name")
+
+          .css({"padding":"4px 7px"});
+
+      }
+
+    });
+
+    });
+
+    </script>
+
+    </body>
+
+</html>
